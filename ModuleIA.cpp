@@ -73,144 +73,161 @@ update_status ModuleIA::Update() {
 		int i = 0;
 
 		for (it = actual_enemies.begin(); it != actual_enemies.end(); ++it) {
-			switch (it->state) {
-			case ENEMY_WAIT:
-				break;
-			case ENEMY_TRACK:
-				
+			if (App->player->state != MAGIC) {
+				switch (it->state) {
+				case ENEMY_WAIT:
+					break;
+				case ENEMY_TRACK:
+					LOG("ENEMIC X %d - Y %d", it->position.x, it->position.y);
+					LOG("JUGADOR X %d - Y %d", App->player->position.x, App->player->position.y);
+					if (it->position.x < App->player->position.x) {
+						LOG("POSICIO X MES PETITA");
+						it->direction = ENEMY_LEFT;
+						it->change_position(0.1, 0);
+						//it->position.x += 0.1;
+					}
+					else if (it->position.x > App->player->position.x) {
+						LOG("POSICIO X MES GRAN");
+						it->direction = ENEMY_RIGHT;
+						it->change_position(-0.1, 0);
+						//it->position.x -= 0.1;
+					}
+
+					if (it->position.y < App->player->position.y) {
+						LOG("POSICIO Y MES PETITA");
+						it->change_position(0, 0.1);
+						//it->position.y += 0.1;
+					}
+					else if (it->position.y > App->player->position.y) {
+						LOG("POSICIO Y MES GRAN");
+						it->change_position(0, -0.1);
+						//it->position.y -= 0.1;
+					}
+
+
+					switch (i) {
+					case 0:
+						if (current_animation1 != &enemy1_right) {
+							enemy1_right.Reset();
+							current_animation1 = &enemy1_right;
+						}
+						break;
+					case 1:
+						if (current_animation2 != &enemy2_right) {
+							enemy2_right.Reset();
+							current_animation2 = &enemy2_right;
+						}
+						break;
+					case 2:
+						if (current_animation3 != &enemy3_right) {
+							enemy3_right.Reset();
+							current_animation3 = &enemy3_right;
+						}
+						break;
+					case 3:
+						if (current_animation4 != &enemy4_right) {
+							enemy4_right.Reset();
+							current_animation4 = &enemy4_right;
+						}
+						break;
+					}
+
+					break;
+				case ENEMY_ATTACK:
+					break;
+				case ENEMY_HURT:
+					switch (i) {
+					case 0:
+						if (timer1->Compare(1000)) {
+							it->state = ENEMY_TRACK;
+							timer1->Stop();
+						}
+						break;
+					case 1:
+						if (timer2->Compare(1000)) {
+							it->state = ENEMY_TRACK;
+							timer2->Stop();
+						}
+						break;
+					case 2:
+						if (timer3->Compare(1000)) {
+							it->state = ENEMY_TRACK;
+							timer3->Stop();
+						}
+						break;
+					case 3:
+						if (timer4->Compare(1000)) {
+							it->state = ENEMY_TRACK;
+							timer4->Stop();
+						}
+						break;
+					}
+
+
+					break;
+				case ENEMY_RECOVER:
+					break;
+				case ENEMY_DEAD:
+					switch (i) {
+					case 0:
+						current_animation1 = &enemy1_dead;
+						break;
+					case 1:
+						current_animation2 = &enemy2_dead;
+						break;
+					case 2:
+						current_animation3 = &enemy3_dead;
+						break;
+					case 3:
+						current_animation4 = &enemy4_dead;
+						break;
+					}
+
+					break;
+				case ENEMY_MOCKERY:
+					break;
+				default:
+					break;
+				}
+				//LOG("ANEM A PINTAR ENEMIC %d",i)
+				LOG("PINTEM ENEMIC");
 				LOG("ENEMIC X %d - Y %d", it->position.x, it->position.y);
 				LOG("JUGADOR X %d - Y %d", App->player->position.x, App->player->position.y);
-
-				
-				if (it->position.x < App->player->position.x) {
-					LOG("POSICIO X MES PETITA");
-					it->direction = ENEMY_LEFT;
-					it->change_position(0.1, 0);
-					//it->position.x += 0.1;
-				} else if (it->position.x > App->player->position.x) {
-					LOG("POSICIO X MES GRAN");
-					it->direction = ENEMY_RIGHT;
-					it->change_position(-0.1, 0);
-					//it->position.x -= 0.1;
-				}
-
 				if (it->position.y < App->player->position.y) {
-					LOG("POSICIO Y MES PETITA");
-					it->change_position(0, 0.1);
-					//it->position.y += 0.1;
-				} else if (it->position.y > App->player->position.y) {
-					LOG("POSICIO Y MES GRAN");
-					it->change_position(0, -0.1);
-					//it->position.y -= 0.1;
+					switch (i) {
+					case 0:
+						App->renderer->Blit(enemy_graphics, it->position.x - 40, it->position.y - 80, &(current_animation1->GetCurrentFrame()));
+						break;
+					case 1:
+						App->renderer->Blit(enemy_graphics, it->position.x - 40, it->position.y - 80, &(current_animation2->GetCurrentFrame()));
+						break;
+					case 2:
+						App->renderer->Blit(enemy_graphics, it->position.x - 40, it->position.y - 80, &(current_animation3->GetCurrentFrame()));
+						break;
+					case 3:
+						App->renderer->Blit(enemy_graphics, it->position.x - 40, it->position.y - 80, &(current_animation4->GetCurrentFrame()));
+						break;
+					}
 				}
-				
-				
-				switch (i) {
-				case 0:
-					if (current_animation1 != &enemy1_right) {
-						enemy1_right.Reset();
-						current_animation1 = &enemy1_right;
+			} else {
+				if (it->position.y < App->player->position.y) {
+					switch (i) {
+					case 0:
+						App->renderer->Blit(enemy_graphics, it->position.x - 40, it->position.y - 80, &(current_animation1->GetCurrentFrame()));
+						break;
+					case 1:
+						App->renderer->Blit(enemy_graphics, it->position.x - 40, it->position.y - 80, &(current_animation2->GetCurrentFrame()));
+						break;
+					case 2:
+						App->renderer->Blit(enemy_graphics, it->position.x - 40, it->position.y - 80, &(current_animation3->GetCurrentFrame()));
+						break;
+					case 3:
+						App->renderer->Blit(enemy_graphics, it->position.x - 40, it->position.y - 80, &(current_animation4->GetCurrentFrame()));
+						break;
 					}
-					break;
-				case 1:
-					if (current_animation2 != &enemy2_right) {
-						enemy2_right.Reset();
-						current_animation2 = &enemy2_right;
-					}
-					break;
-				case 2:
-					if (current_animation3 != &enemy3_right) {
-						enemy3_right.Reset();
-						current_animation3 = &enemy3_right;
-					}
-					break;
-				case 3:
-					if (current_animation4 != &enemy4_right) {
-						enemy4_right.Reset();
-						current_animation4= &enemy4_right;
-					}
-					break;
-				}
-				
-				break;
-			case ENEMY_ATTACK:
-				break;
-			case ENEMY_HURT:
-				switch (i) {
-				case 0:
-					if (timer1->Compare(1000)) {
-						it->state = ENEMY_TRACK;
-						timer1->Stop();
-					}
-					break;
-				case 1:
-					if(timer2->Compare(1000)) {
-						it->state = ENEMY_TRACK;
-						timer2->Stop();
-					}
-					break;
-				case 2:
-					if(timer3->Compare(1000)) {
-						it->state = ENEMY_TRACK;
-						timer3->Stop();
-					}
-					break;
-				case 3:
-					if(timer4->Compare(1000)) {
-						it->state = ENEMY_TRACK;
-						timer4->Stop();
-					}
-					break;
-				}
-
-				
-				break;
-			case ENEMY_RECOVER:
-				break;
-			case ENEMY_DEAD:
-				switch (i) {
-				case 0:
-					current_animation1 = &enemy1_dead;
-					break;
-				case 1:
-					current_animation2 = &enemy2_dead;
-					break;
-				case 2:
-					current_animation3 = &enemy3_dead;
-					break;
-				case 3:
-					current_animation4 = &enemy4_dead;
-					break;
-				}
-				
-				break;
-			case ENEMY_MOCKERY:
-				break;
-			default:
-				break;
-			}
-			
-			//LOG("ANEM A PINTAR ENEMIC %d",i)
-			LOG("PINTEM ENEMIC");
-			LOG("ENEMIC X %d - Y %d", it->position.x, it->position.y);
-			LOG("JUGADOR X %d - Y %d", App->player->position.x, App->player->position.y);
-			if (it->position.y < App->player->position.y) {
-				switch (i) {
-				case 0:
-					App->renderer->Blit(enemy_graphics, it->position.x, it->position.y, &(current_animation1->GetCurrentFrame()));
-					break;
-				case 1:
-					App->renderer->Blit(enemy_graphics, it->position.x - 40, it->position.y - 80, &(current_animation2->GetCurrentFrame()));
-					break;
-				case 2:
-					App->renderer->Blit(enemy_graphics, it->position.x - 40, it->position.y - 80, &(current_animation3->GetCurrentFrame()));
-					break;
-				case 3:
-					App->renderer->Blit(enemy_graphics, it->position.x - 40, it->position.y - 80, &(current_animation4->GetCurrentFrame()));
-					break;
 				}
 			}
-								
+										
 			++i;
 		}
 	}

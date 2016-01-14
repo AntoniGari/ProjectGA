@@ -44,7 +44,7 @@ Uint32 Timer::Read() {
 
 // ---------------------------------------------
 bool Timer::Compare(Uint32 x) {
-	if ((running == true) && (SDL_GetTicks() - started_at < x)) {
+	if ((running == true) && (SDL_GetTicks() - started_at > x)) {
 		return true;
 	}
 	return false;

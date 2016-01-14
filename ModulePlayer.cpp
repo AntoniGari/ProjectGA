@@ -74,14 +74,22 @@ ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled) {
 
 	//Jumping Left
 
-	/* CHARACTER ATACK ANIMATIONS */
+	/* CHARACTER ATTACK ANIMATIONS */
 	//Atacking right
 	atacking_right.frames.push_back({ 0, 400, 80, 80 });
 	atacking_right.frames.push_back({ 80, 400, 80, 80 });
 	atacking_right.frames.push_back({ 160, 400, 80, 80 });
+	atacking_right.frames.push_back({ 0, 400, 80, 80 });
+	atacking_right.frames.push_back({ 0, 400, 80, 80 });
 	atacking_right.speed = 0.1f;
 
 	//Atacking left
+
+	/* CHARACTER MAGIC ANIMATIONS */
+	magic.frames.push_back({ 160, 0, 80, 80 });
+	magic.frames.push_back({ 240, 0, 80, 80 });
+	magic.loop = false;
+	magic.speed = 0.1f;
 }
 
 ModulePlayer::~ModulePlayer() {
@@ -107,9 +115,6 @@ bool ModulePlayer::Start() {
 	//Start position
 	position.x = 50;
 	position.y = 200;
-
-	//Magic graphics
-	//SDL_Texture* particles = App->textures->Load("particles.png");
 
 	//Player collider
 	character_collider = App->collision->AddCollider({2000, 40, 30, 10}, COLLIDER_PLAYER, this);
@@ -141,31 +146,35 @@ update_status ModulePlayer::Update() {
 		return UPDATE_CONTINUE;
 
 	/* ATACKING*/
-	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN && state != ATTACK) {
+	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN && state != ATTACK && state != MAGIC) {
 		if (App->ia->active) App->ia->hurt(1);
 		if (current_animation != &atacking_right) {
 			atacking_right.Reset();
 			current_animation = &atacking_right;
 			state = ATTACK;
-			character_timer->running = true;
-			character_timer->started_at = SDL_GetTicks();
+			character_timer->Start();
 		}
 
 	/* MAGIC */
-	}
-	else if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN  && state != ATTACK) {
-		if (App->ia->active) App->ia->hurt_all(4);
-		if (current_animation != &up_left) {
-			up_left.Reset();
-			current_animation = &up_left;
+	} else if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN  && state != ATTACK && state != MAGIC) {
+		if (character_mana > 0) {
+			character_mana = 0;
+			if (App->ia->active) App->ia->hurt_all(4);
+			if (current_animation != &magic) {
+				magic.Reset();
+				current_animation = &magic;
+				state = MAGIC;
+				character_timer->Start();
+			}
 		}
+		
 
 	/* MOVEMENT */
 	// JUMPING
-	} else if (App->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN  && state != ATTACK) {
+	} else if (App->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN  && state != ATTACK && state != MAGIC) {
 	
 	//Character goes up-left
-	} else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT  && state != ATTACK) {
+	} else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT  && state != ATTACK && state != MAGIC) {
 		position.x -= speed;
 		position.y -= speed;
 		direction = LEFT;
@@ -177,7 +186,7 @@ update_status ModulePlayer::Update() {
 		}
 	
 	//Character goes up-right
-	} else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT  && state != ATTACK) {
+	} else if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT  && state != ATTACK && state != MAGIC) {
 		position.x += speed;
 		position.y -= speed;
 		direction = RIGHT;
@@ -189,16 +198,16 @@ update_status ModulePlayer::Update() {
 		}
 	
 	} else {
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN  && state != ATTACK) {
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN  && state != ATTACK && state != MAGIC) {
 			if (state == NONE) state = PRERUNNINGRIGHT;
 			else if (state == PRERUNNINGRIGHT) state = RUNNINGRIGHT;
-		} else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN  && state != ATTACK) {
+		} else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN  && state != ATTACK && state != MAGIC) {
 			if (state == NONE) state = PRERUNNINGLEFT;
 			else if (state == PRERUNNINGLEFT) state = RUNNINGLEFT;
 		}
 
 		//Character goes left
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT  && state != ATTACK) {
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT  && state != ATTACK && state != MAGIC) {
 			direction = LEFT;
 
 			if (state == RUNNINGRIGHT) {
@@ -218,7 +227,7 @@ update_status ModulePlayer::Update() {
 		}
 
 		//Character goes right
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT  && state != ATTACK) {
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT  && state != ATTACK && state != MAGIC) {
 			direction = RIGHT;
 		
 			if (state == RUNNINGRIGHT) {
@@ -238,7 +247,7 @@ update_status ModulePlayer::Update() {
 		}
 
 		//Character goes down
-		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT  && state != ATTACK) {
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT  && state != ATTACK && state != MAGIC) {
 			position.y += speed;
 
 			switch (direction) {
@@ -258,7 +267,7 @@ update_status ModulePlayer::Update() {
 		}
 
 		//Character goes up
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT  && state != ATTACK) {
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT  && state != ATTACK && state != MAGIC) {
 			position.y -= speed;
 
 			switch (direction) {
@@ -279,7 +288,7 @@ update_status ModulePlayer::Update() {
 	}
 
 	//If not moving
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE  && state != ATTACK) {
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE  && state != ATTACK && state != MAGIC) {
 		camara_state = BLOCKED;
 		switch (direction) {
 		case RIGHT:
@@ -292,23 +301,28 @@ update_status ModulePlayer::Update() {
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
-		++character_lifes;
+		++character_coins;
 	}
 
-	LOG("Timer es %d", character_timer->Read());
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
+		if (character_mana < 9)
+			++character_mana;
+	}
+
 	if (state == ATTACK && character_timer->isRunning()) {
-		LOG("Timer es %d", character_timer->Read());
-		LOG("Timer actual %d", SDL_GetTicks());
-		LOG("TIMER ON");
-		if (character_timer->Compare(1000)) {
-			LOG("JA HA COMPARAT");
+		if (character_timer->Compare(600)) {
 			state = NONE;
 			character_timer->Stop();
 		}
-		
 	}
-		
 
+	if (state == MAGIC && character_timer->isRunning()) {
+		if (character_timer->Compare(3000)) {
+			state = NONE;
+			character_timer->Stop();
+		}
+	}
+	
 	character_collider->SetPos(position.x - (character_collider->rect.w / 2), position.y - character_collider->rect.h);
 
 	App->renderer->Blit(graphics, position.x - 40, position.y - 80, &(current_animation->GetCurrentFrame()));

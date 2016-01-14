@@ -36,6 +36,7 @@ enum character_state {
 	RUNNINGLEFT,
 	RUNNINGRIGHT,
 	ATTACK,
+	MAGIC,
 	JUMP
 };
 
@@ -74,6 +75,7 @@ public:
 	Animation jumping_left;
 	Animation atacking_right;
 	Animation atacking_left;
+	Animation magic;
 
 	character_direction direction;
 	character_race race;
@@ -82,10 +84,11 @@ public:
 	application_scene_level app_scene_level;
 	unsigned short character_health;
 	unsigned short int character_lifes;
+	unsigned short int character_coins;
 	unsigned short int character_mana;
 
 	Timer* character_timer;
-
+	
 	bool finished = false;
 	bool finished_wave = false;
 	iPoint position;
