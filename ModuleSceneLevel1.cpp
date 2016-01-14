@@ -31,7 +31,7 @@ bool ModuleSceneLevel1::Start() {
 	App->ia->Enable();
 	App->player->Enable();
 	App->hud->Enable(); //Activate Hud
-	App->audio->PlayMusic("stage1.ogg", 1.0f);
+	App->audio->PlayMusic("music\\Lvl1_Wilderness.ogg", 1.0f);
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 

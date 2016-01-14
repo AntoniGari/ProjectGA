@@ -1,0 +1,59 @@
+﻿Compilación iniciada a las 14/01/2016 16:04:43.
+     1>Proyecto "C:\Users\Antoni\Dropbox\Estudis\Master\Golden Axe\SDL Game.vcxproj" en el nodo 2 (Build destinos).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Application.cpp Enemy.cpp Log.cpp Main.cpp ModuleAudio.cpp ModuleCollision.cpp ModuleFadeToBlack.cpp ModuleHud.cpp ModuleInput.cpp ModuleParticles.cpp ModulePlayer.cpp ModuleRender.cpp ModuleSceneIntro.cpp ModuleSceneLevel1.cpp ModuleSceneSelectPlayer.cpp ModuleIA.cpp ModuleTextures.cpp ModuleWindow.cpp Timer.cpp
+         Application.cpp
+         Enemy.cpp
+     1>Enemy.cpp(15): warning C4244: 'argumento' : conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+     1>Enemy.cpp(81): warning C4244: '+=' : conversión de 'float' a 'int'; posible pérdida de datos
+     1>Enemy.cpp(82): warning C4244: '+=' : conversión de 'float' a 'int'; posible pérdida de datos
+         Log.cpp
+         Main.cpp
+         ModuleAudio.cpp
+         ModuleCollision.cpp
+         ModuleFadeToBlack.cpp
+         ModuleHud.cpp
+         ModuleInput.cpp
+         ModuleParticles.cpp
+         ModulePlayer.cpp
+         ModuleRender.cpp
+         ModuleSceneIntro.cpp
+         ModuleSceneLevel1.cpp
+         ModuleSceneSelectPlayer.cpp
+         ModuleIA.cpp
+     1>ModuleIA.cpp(51): warning C4244: 'argumento' : conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+     1>ModuleIA.cpp(86): warning C4305: 'argumento' : truncamiento de 'double' a 'float'
+     1>ModuleIA.cpp(92): warning C4305: 'argumento' : truncamiento de 'double' a 'float'
+     1>ModuleIA.cpp(98): warning C4305: 'argumento' : truncamiento de 'double' a 'float'
+     1>ModuleIA.cpp(103): warning C4305: 'argumento' : truncamiento de 'double' a 'float'
+         ModuleTextures.cpp
+         ModuleWindow.cpp
+         Timer.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Antoni\Dropbox\Estudis\Master\Golden Axe\Release\GoldenAxe.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Antoni\Dropbox\Estudis\Master\Golden Axe\Release\GoldenAxe.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Antoni\Dropbox\Estudis\Master\Golden Axe\Release\GoldenAxe.lib" /MACHINE:X86 /SAFESEH Release\Application.obj
+         Release\Enemy.obj
+         Release\Log.obj
+         Release\Main.obj
+         Release\ModuleAudio.obj
+         Release\ModuleCollision.obj
+         Release\ModuleFadeToBlack.obj
+         Release\ModuleHud.obj
+         Release\ModuleInput.obj
+         Release\ModuleParticles.obj
+         Release\ModulePlayer.obj
+         Release\ModuleRender.obj
+         Release\ModuleSceneIntro.obj
+         Release\ModuleSceneLevel1.obj
+         Release\ModuleSceneSelectPlayer.obj
+         Release\ModuleIA.obj
+         Release\ModuleTextures.obj
+         Release\ModuleWindow.obj
+         Release\Timer.obj
+         Generando código
+         Generación de código finalizada
+         SDL Game.vcxproj -> C:\Users\Antoni\Dropbox\Estudis\Master\Golden Axe\Release\GoldenAxe.exe
+     1>Compilación del proyecto terminada "C:\Users\Antoni\Dropbox\Estudis\Master\Golden Axe\SDL Game.vcxproj" (Build destinos).
+
+Compilación correcta.
+
+Tiempo transcurrido 00:00:04.10
