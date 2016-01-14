@@ -35,7 +35,6 @@ public:
 
 	Timer* timer1;
 	Timer* timer2;
-	
 };
 
 #endif //__MODULESCENEINTRO_H__

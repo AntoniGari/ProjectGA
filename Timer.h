@@ -16,6 +16,7 @@ public:
 
 	uint32 Read();
 	bool Compare(Uint32);
+	bool CompareMin(Uint32);
 	bool isRunning();
 
 public:

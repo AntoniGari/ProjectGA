@@ -155,7 +155,7 @@ bool ModuleSceneIntro::CleanUp() {
 // Update: draw background
 update_status ModuleSceneIntro::Update() {
 	// Draw everything --------------------------------------	
-	if (timer1->Compare(5800)) {
+	if (timer1->CompareMin(5800)) {
 		background_animation = &sega_logo;
 		App->renderer->Blit(graphics_sega_logo, SCREEN_WIDTH / 2 - 54, SCREEN_HEIGHT / 2 - 19, &(background_animation->GetCurrentFrame()));
 

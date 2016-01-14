@@ -50,6 +50,13 @@ bool Timer::Compare(Uint32 x) {
 	return false;
 }
 
+bool Timer::CompareMin(Uint32 x) {
+	if ((running == true) && (SDL_GetTicks() - started_at < x)) {
+		return true;
+	}
+	return false;
+}
+
 // ---------------------------------------------
 bool Timer::isRunning() {
 	return running;

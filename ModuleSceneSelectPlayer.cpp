@@ -62,7 +62,6 @@ bool ModuleSceneSelectPlayer::Start() {
 	graphics_barbarian = App->textures->Load("character\\character_barbarian.png");;
 	graphics_dwarf = App->textures->Load("character\\character_dwarf.png");;
 
-	//App->audio->PlayMusic("music\\The_Battle.ogg", 0.0f);
 	fx = App->audio->LoadFx("sfx\\SceneSelectPlayer_PlayerSelected.wav");
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 

@@ -88,6 +88,9 @@ public:
 	unsigned short int character_mana;
 
 	Timer* character_timer;
+
+	uint fx_attack = 0;
+	uint fx_magic_level1 = 0;
 	
 	bool finished = false;
 	bool finished_wave = false;

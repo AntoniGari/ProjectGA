@@ -119,6 +119,10 @@ bool ModulePlayer::Start() {
 	//Player collider
 	character_collider = App->collision->AddCollider({2000, 40, 30, 10}, COLLIDER_PLAYER, this);
 	
+	// Sounds
+	fx_attack = App->audio->LoadFx("sfx\\character_attack.wav");
+	fx_magic_level1 = App->audio->LoadFx("sfx\\character_amazone_magic_level1.wav");
+
 	//Others
 	finished = false;
 	character_health = 48;
@@ -148,7 +152,10 @@ update_status ModulePlayer::Update() {
 	/* ATACKING*/
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN && state != ATTACK && state != MAGIC) {
 		if (App->ia->active) App->ia->hurt(1);
+		
+		App->audio->PlayFx(fx_attack);
 		if (current_animation != &atacking_right) {
+			
 			atacking_right.Reset();
 			current_animation = &atacking_right;
 			state = ATTACK;
@@ -161,6 +168,7 @@ update_status ModulePlayer::Update() {
 			character_mana = 0;
 			if (App->ia->active) App->ia->hurt_all(4);
 			if (current_animation != &magic) {
+				App->audio->PlayFx(fx_magic_level1);
 				magic.Reset();
 				current_animation = &magic;
 				state = MAGIC;
